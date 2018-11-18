@@ -1,5 +1,6 @@
 package com.anishabatra.openmoviedbsearch;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
@@ -85,8 +86,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void saveToDataBase(String title) {
-        mydatabase = openOrCreateDatabase("Movie",MODE_PRIVATE,null);
-
         mydatabase.execSQL("CREATE TABLE IF NOT EXISTS Titles(Name VARCHAR);");
         mydatabase.execSQL("INSERT INTO Titles VALUES('" + title + "');");
     }
@@ -100,6 +99,9 @@ public class MainActivity extends AppCompatActivity {
             Log.i("DB MovieTitle ", movieName);
             resultSet.moveToNext();
         }
+
+        Intent intent = new Intent(this, Main2Activity.class);
+        startActivity(intent);
     }
 
     @Override
@@ -108,6 +110,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         editTextMovieName = findViewById(R.id.editTextMovieName);
-
+        mydatabase = openOrCreateDatabase("Movie",MODE_PRIVATE,null);
     }
 }

@@ -16,18 +16,14 @@ import com.android.volley.toolbox.Volley;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 
 public class MainActivity extends AppCompatActivity {
 
     EditText editTextMovieName;
-    String movieName = "";
     SQLiteDatabase mydatabase;
 
     public void btnSearch_Click(View view) {
-        movieName = editTextMovieName.getText().toString();
+        final String movieName = editTextMovieName.getText().toString();
         Log.i("Movie name", movieName);
 
         if(movieName.equals("")) {
@@ -57,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
                             // Display the first 500 characters of the response string.
                             //editTextMovieName.setText("Response is: "+ response.substring(0,500));
                             Log.i("JSON Response", response);
-                            saveToDatabase(response);
+                            saveSearchHistoryToDatabase(movieName);
                         }
                     }, new Response.ErrorListener() {
                 @Override
@@ -71,19 +67,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void saveToDatabase(String response) {
-        try {
-            JSONObject jsonObject = new JSONObject(response);
-            String movieTitle = jsonObject.getString("Title");
-            Log.i("Response MovieTitle", movieTitle);
-
-            mydatabase.execSQL("CREATE TABLE IF NOT EXISTS Titles(Name VARCHAR);");
-            mydatabase.execSQL("INSERT INTO Titles VALUES('" + movieTitle + "');");
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
+    public void saveSearchHistoryToDatabase(String movieName) {
+        mydatabase.execSQL("CREATE TABLE IF NOT EXISTS Titles(Name VARCHAR);");
+        mydatabase.execSQL("INSERT INTO Titles VALUES('" + movieName + "');");
     }
 
     public void btnShowHistory_Click(View view) {

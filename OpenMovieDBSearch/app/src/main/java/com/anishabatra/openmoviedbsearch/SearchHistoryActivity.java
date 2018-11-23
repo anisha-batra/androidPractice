@@ -19,8 +19,8 @@ public class SearchHistoryActivity extends AppCompatActivity {
     ListView listViewHistory;
 
     private void showHistory() {
-        ArrayList<String> movieHistory = new ArrayList();
-        
+         ArrayList<String> movieHistory = new ArrayList();
+
         Cursor resultSet = mydatabase.rawQuery("Select * from Titles",null);
         resultSet.moveToFirst();
 

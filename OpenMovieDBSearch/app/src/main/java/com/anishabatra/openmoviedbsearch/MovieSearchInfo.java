@@ -1,6 +1,8 @@
 package com.anishabatra.openmoviedbsearch;
 
-public class MovieSearchInfo {
+import java.io.Serializable;
+
+public class MovieSearchInfo implements Serializable {
 
     private String title;
     private String year;

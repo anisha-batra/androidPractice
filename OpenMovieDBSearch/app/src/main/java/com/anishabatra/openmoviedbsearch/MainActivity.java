@@ -4,8 +4,6 @@ import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -29,7 +27,6 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
     EditText editTextMovieName;
-    RecyclerView recyclerViewSearchItem;
 
     SQLiteDatabase mydatabase;
 
@@ -64,13 +61,12 @@ public class MainActivity extends AppCompatActivity {
                             // Display the first 500 characters of the response string.
                             //editTextMovieName.setText("Response is: "+ response.substring(0,500));
                             Log.i("JSON Response", response);
-
+                            
                             ArrayList<MovieSearchInfo> movieSearchInfos = extractMovieSearchResultsFromJsonResponse(response);
 
-                            recyclerViewSearchItem.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-
-                            MovieSearchInfoAdapter movieSearchInfoAdapter = new MovieSearchInfoAdapter(movieSearchInfos);
-                            recyclerViewSearchItem.setAdapter(movieSearchInfoAdapter);
+                            Intent intent = new Intent(getApplicationContext() , MovieSearchResultsActivity.class);
+                            intent.putExtra("MovieSearchInfos", movieSearchInfos);
+                            startActivity(intent);
 
                             saveSearchHistoryToDatabase(movieName);
                         }
@@ -131,7 +127,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         editTextMovieName = findViewById(R.id.editTextMovieName);
-        recyclerViewSearchItem = findViewById(R.id.recyclerViewSearchItem);
 
         mydatabase = openOrCreateDatabase("Movie", MODE_PRIVATE, null);
 
